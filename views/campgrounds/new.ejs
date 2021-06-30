@@ -1,26 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate')%>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <h1 class="text-center">New Campground</h1>
+            <form method="POST" action="/campgrounds">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title:</label>
+                    <input class="form-control" id="title" type="text" name="campground[title]">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location:</label>
+                    <input class="form-control" id="location" type="text" name="campground[location]">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="image">Image URL:</label>
+                    <input class="form-control" id="image" type="text" name="campground[image]">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description:</label>
+                    <textarea class="form-control" id="description" type="text"
+                        name="campground[description]"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="price">Price:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="price-label">$</span>
+                        </div>
+                        <input type="text" class="form-control" id="price" name="campground[price]" placeholder="0.00" aria-label="price"
+                            aria-describedby="price-label">
+                    </div>
+                </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Make A New Campground</title>
-</head>
+                <div class="mb-3">
+                    <button class="btn btn-success">Save</button>
+                </div>
+            </form>
 
-<body>
-    <h1>Make a new campground</h1>
-    <form method="POST" action="/campgrounds">
-        <div>
-            <label for="title">Title:</label>
-            <input id="title" type="text" name="campground[title]">
         </div>
-        <div>
-            <label for="location">Location:</label>
-            <input id="location" type="text" name="campground[location]">
-        </div>
-        <button>Save</button>
-    </form>
-</body>
-
-</html>
+    </div>

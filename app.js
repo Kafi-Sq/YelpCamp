@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const path = require('path')
+const engine = require('ejs-mate')
 const methodOverride = require('method-override')
 const mongoose = require('mongoose')
 const Campground = require('./models/campgrounds')
@@ -18,6 +19,7 @@ mongoose.connection
         console.log(err)
     })
 
+app.engine('ejs', engine)
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }))
