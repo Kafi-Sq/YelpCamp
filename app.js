@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== 'production'){
     require('dotenv').config()
 }
 
+
 const express = require("express")
 const app = express()
 const path = require('path')
@@ -13,12 +14,14 @@ const flash = require('connect-flash')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
+const helmet = require('helmet')
 const User = require('./models/user')
+const mongoSanitize = require('express-mongo-sanitize');
 
 const userRoutes = require('./routes/users')
 const campgroundsRoutes = require('./routes/campground')
 const reviewsRoutes = require('./routes/reviews')
-
+// const dbUrl = process.env.DB_URL
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -38,8 +41,56 @@ app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+app.use(mongoSanitize())
+app.use(helmet())
 app.use(express.static(path.join(__dirname, ('public'))))
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com",
+    "https://api.tiles.mapbox.com",
+    "https://api.mapbox.com",
+    "https://kit.fontawesome.com",
+    "https://cdnjs.cloudflare.com",
+    "https://cdn.jsdelivr.net",
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com",
+    "https://stackpath.bootstrapcdn.com",
+    "https://api.mapbox.com",
+    "https://api.tiles.mapbox.com",
+    "https://fonts.googleapis.com",
+    "https://use.fontawesome.com",
+];
+const connectSrcUrls = [
+    "https://api.mapbox.com",
+    "https://*.tiles.mapbox.com",
+    "https://events.mapbox.com",
+];
+const fontSrcUrls = [];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            childSrc: ["blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/nbrvchhc/",
+                "https://images.unsplash.com",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
 const sessionConfig = {
+    name: 'wthits',
     secret: 'basicSecret',
     resave: false,
     saveUninitialized: true,
