@@ -1,7 +1,6 @@
 The final project from The Webdeveloper Bootcamp by Colt Steele. 
 Link: https://gentle-coast-49026.herokuapp.com/
 
-![Alt text](relative/path/to/img.jpg?raw=true "Title")
 ![Main Page](Images/homePage.png?raw=true "Title")
 ![Main Page](Images/homePage.png?raw=true "Title")
 ![Main Page](Images/indexPage.png?raw=true "Title")
